@@ -26,15 +26,30 @@ const optimization = () => {
   return config
 }
 
+const filename = ext => isDev ? `[name].${ext}` : `[name].[hash].${ext}`
+
+const cssLoaders = extra => {
+  const loaders = [
+    MiniCssExtractPlugin.loader,
+    'css-loader'
+  ]
+
+  if (extra) {
+    loaders.push(extra)
+  }
+
+  return loaders
+}
+
 module.exports = {
 	context: path.resolve(__dirname, 'src'),
 	mode: 'development',
 	entry: {
-    main: './index.js',
-    analytics: './analytics.js'
+    main: ['@babel/polyfill', './index.js'],
+    analytics: './analytics.ts'
   },
   output: {
-    filename: '[name].[contenthash].js',
+    filename: filename('js'),
     path: path.resolve(__dirname, 'dist')
   },
 	resolve: {
@@ -69,14 +84,22 @@ module.exports = {
       ]
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].[contenthash].css'
+      filename: filename('css')
     })
 	],
 	module: {
     rules: [
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'] // use: ['style-loader', 'css-loader']
+        use: cssLoaders() // [MiniCssExtractPlugin.loader, 'css-loader'] // use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.less$/,
+        use: cssLoaders('less-loader')
+      },
+       {
+        test: /\.s[ac]ss$/,
+        use: cssLoaders('sass-loader')
       },
       {
         test: /\.(png|jpg|svg|gif)$/,
@@ -95,6 +118,36 @@ module.exports = {
         test: /\.csv$/,
         use: ['csv-loader']
       },
+      {
+        test: /\.m?js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+            plugins: [
+              '@babel/plugin-proposal-class-properties'
+            ]
+          }
+        }
+      },
+      {
+        test: /\.ts$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-typescript'],
+            plugins: [
+              '@babel/plugin-proposal-class-properties'
+            ]
+          }
+        }
+      }
     ]
   }
 }
+
+
+
+//npm install --save @babel/polyfill
