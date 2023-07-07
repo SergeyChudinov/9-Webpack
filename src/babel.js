@@ -4,15 +4,15 @@ async function start() {
 
 start().then(console.log)
 
-// const unused = 42
+const unused = 42
 
 class Util {
   static id = Date.now()
 }
 
 console.log('Util Id:', Util.id)
-// console.log(unused)
+console.log(unused)
 
-// import('lodash').then(_ => {
-//   console.log('Lodash', _.random(0, 42, true))
-// })
+import('lodash').then(({default: lodash}) => {
+    console.log('Lodash: ', lodash.random(0, 42, true))
+}) 
