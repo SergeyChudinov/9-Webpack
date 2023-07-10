@@ -5,7 +5,6 @@ import xml from './assets/data.xml'
 import csv from './assets/data.csv'
 import WebpackLogo from '@/assets/webpack-logo.png'
 import React from 'react'
-// import {render} from 'react-dom'
 import ReactDOM from "react-dom/client";
 import './babel'
 import './styles/styles.css'
@@ -32,8 +31,6 @@ const App = () => (
     </div>
   </div>
 )
-
-// render(<App/>, document.getElementById('app'))
 
 ReactDOM
   .createRoot(document.getElementById("app"))
