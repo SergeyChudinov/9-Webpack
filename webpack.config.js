@@ -133,7 +133,7 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: cssLoaders() // [MiniCssExtractPlugin.loader, 'css-loader'] // use: ['style-loader', 'css-loader']
+        use: cssLoaders()
       },
       {
         test: /\.less$/,
@@ -145,14 +145,13 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|svg|gif)$/,
-        // use: ['file-loader']
 				type: 'asset/resource'
       },
 			{
         test: /\.(ttf|woff|woff2|eot)$/,
         type: 'asset/resource'
       },
-			  {
+			{
         test: /\.xml$/,
         use: ['xml-loader']
       },
@@ -165,14 +164,6 @@ module.exports = {
         exclude: /node_modules/,
         use: jsLoaders()
       },
-      // {
-      //   test: /\.m?js$/,
-      //   exclude: /node_modules/,
-      //   use: {
-      //     loader: 'babel-loader',
-      //     options: babelOptions()
-      //   }
-      // },
       {
         test: /\.ts$/,
         exclude: /node_modules/,
